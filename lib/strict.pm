@@ -45,14 +45,13 @@ BEGIN {
 
 sub complain {
     my @wrong = grep !$bitmask{$_}, @_;
-        require Carp;
-        Carp::croak("Unknown 'strict' tag(s) '@wrong'");
+    die sprintf "Unknown 'strict' tag(s) '%s' at %s line %d.\n", "@wrong", +(caller)[1,2];
 }
 
 sub import {
     @_ <= 1 ? $^H |= all_bits : do {
         shift;
-        for my $s (@_) { $^H |= ( $bitmask{$s} or &complain ) }
+        for my $s (@_) { $^H |= ( $bitmask{$s} or goto &complain ) }
         $^H;
     };
 }
@@ -60,7 +59,7 @@ sub import {
 sub unimport {
     @_ <= 1 ? ( $^H &= ~all_bits ) |= all_explicit_bits : do {
         shift;
-        for my $s (@_) { ( $^H &= ~( $bitmask{$s} or &complain ) ) |= $explicit_bitmask{$s} }
+        for my $s (@_) { ( $^H &= ~( $bitmask{$s} or goto &complain ) ) |= $explicit_bitmask{$s} }
         $^H;
     };
 }
