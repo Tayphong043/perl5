@@ -12,12 +12,15 @@ BEGIN {
         if __FILE__ !~ ( '(?x) \b     '.__PACKAGE__.'  \.pmc? \z' )
         && __FILE__ =~ ( '(?x) \b (?i:'.__PACKAGE__.') \.pmc? \z' );
 
+    # which strictures are actually in force
     %bitmask = (
         refs => 0x00000002,
         subs => 0x00000200,
         vars => 0x00000400,
     );
 
+    # which strictures have at some point been turned on or off explicitly
+    # and must therefore not be touched by any subsequent `use VERSION` or `no VERSION`
     %explicit_bitmask = (
         refs => 0x00000020,
         subs => 0x00000040,
@@ -37,33 +40,26 @@ BEGIN {
     *all_explicit_bits = sub () { $inline_all_explicit_bits };
 }
 
-sub bits {
-    shift;
-    my $bits = 0;
-    my @wrong;
-    foreach my $s (@_) {
-        if (exists $bitmask{$s}) {
-            $^H |= $explicit_bitmask{$s};
-
-            $bits |= $bitmask{$s};
-        }
-        else {
-            push @wrong, $s;
-        }
-    }
-    if (@wrong) {
+sub complain {
+    my @wrong = grep !$bitmask{$_}, @_;
         require Carp;
         Carp::croak("Unknown 'strict' tag(s) '@wrong'");
-    }
-    $bits;
 }
 
 sub import {
-    @_ <= 1 ? ( $^H |= all_bits ) |= all_explicit_bits : $^H |= &bits;
+    @_ <= 1 ? ( $^H |= all_bits ) |= all_explicit_bits : do {
+        shift;
+        for my $s (@_) { ( $^H |= ( $bitmask{$s} or &complain ) ) |= $explicit_bitmask{$s} }
+        $^H;
+    };
 }
 
 sub unimport {
-    @_ <= 1 ? ( $^H &= ~all_bits ) |= all_explicit_bits : $^H &= ~&bits;
+    @_ <= 1 ? ( $^H &= ~all_bits ) |= all_explicit_bits : do {
+        shift;
+        for my $s (@_) { ( $^H &= ~( $bitmask{$s} or &complain ) ) |= $explicit_bitmask{$s} }
+        $^H;
+    };
 }
 
 1;
