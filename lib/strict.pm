@@ -27,6 +27,9 @@ BEGIN {
         vars => 0x00000080,
     );
 
+    # when a stricture is turned on explicitly, set both bits at once
+    $bitmask{$_} |= $explicit_bitmask{$_} for keys %bitmask;
+
     my $bits = 0;
     $bits |= $_ for values %bitmask;
 
@@ -47,9 +50,9 @@ sub complain {
 }
 
 sub import {
-    @_ <= 1 ? ( $^H |= all_bits ) |= all_explicit_bits : do {
+    @_ <= 1 ? $^H |= all_bits : do {
         shift;
-        for my $s (@_) { ( $^H |= ( $bitmask{$s} or &complain ) ) |= $explicit_bitmask{$s} }
+        for my $s (@_) { $^H |= ( $bitmask{$s} or &complain ) }
         $^H;
     };
 }
