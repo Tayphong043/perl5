@@ -38,6 +38,7 @@ BEGIN {
 }
 
 sub bits {
+    shift;
     my $bits = 0;
     my @wrong;
     foreach my $s (@_) {
@@ -58,20 +59,11 @@ sub bits {
 }
 
 sub import {
-    shift;
-    $^H |= @_ ? &bits : all_bits | all_explicit_bits;
+    @_ <= 1 ? ( $^H |= all_bits ) |= all_explicit_bits : $^H |= &bits;
 }
 
 sub unimport {
-    shift;
-
-    if (@_) {
-        $^H &= ~&bits;
-    }
-    else {
-        $^H &= ~all_bits;
-        $^H |= all_explicit_bits;
-    }
+    @_ <= 1 ? ( $^H &= ~all_bits ) |= all_explicit_bits : $^H &= ~&bits;
 }
 
 1;
