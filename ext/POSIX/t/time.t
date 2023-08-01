@@ -43,7 +43,7 @@ $ENV{TZ} = "UTC0UTC";
 
 SKIP: {
     skip "No tzset()", 2
-       if $^O eq "VMS" || $^O eq "cygwin" || $^O eq "msys"
+       if $^O eq "VMS" || $^O eq "cygwin" || $^O eq "msys" ||
           $^O eq "MSWin32" || $^O eq "interix";
     tzset();
     my @tzname = tzname();
