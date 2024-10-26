@@ -21,6 +21,8 @@ See https://github.com/perl/Perl5/issues?q=+label%3Abackport-5.38
 
 <div><h3>Security Fixes</h3>
 
+<!-- Wanted: Fix for heap-buffer-overflow security issue reported on 12 Aug (no GH issue or CVE assigned yet) -->
+
 </div>
 
 <div><h3>Crash / Assertion / Memory Corruption Fixes</h3>
