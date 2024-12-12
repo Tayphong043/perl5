@@ -94,11 +94,11 @@ sub format_version_line
 }
 
 BEGIN {
-  if ("$]" < "5.006" ) {
+  if ("$]" < 5.006 ) {
     # On early perls, the implicit pass by reference doesn't work, so we have
     # to use the globals to initialize.
     eval q[sub dictionary_order($$) { _dictionary_order($a, $b) } ];
-  } elsif ("$]" < "5.022" ) {
+  } elsif ("$]" < 5.022 ) {
     eval q[sub dictionary_order($$) { _dictionary_order(@_) } ];
   } else {
     eval q[sub dictionary_order :prototype($$) { _dictionary_order(@_) } ];

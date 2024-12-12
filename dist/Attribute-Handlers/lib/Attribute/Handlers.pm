@@ -167,7 +167,7 @@ sub AUTOLOAD {
 	croak "Attribute handler '$2' doesn't handle $1 attributes";
 }
 
-my $builtin = $] ge '5.027000'
+my $builtin = "$]" >= 5.027000
     ? qr/lvalue|method|shared/
     : qr/lvalue|method|locked|shared|unique/;
 

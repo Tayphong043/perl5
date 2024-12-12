@@ -17,7 +17,7 @@ use warnings;
 use 5.008_001;
 require Exporter;
 
-use constant IS_PRE_516_PERL => $] < 5.016;
+use constant IS_PRE_516_PERL => "$]" < 5.016;
 use constant SUPPORTS_CORE_BOOLS => defined &builtin::is_bool;
 
 use Carp ();
@@ -210,7 +210,7 @@ sub Dump {
   return &Dumpxs
     unless $Data::Dumper::Useperl || (ref($_[0]) && $_[0]->{useperl})
             # Use pure perl version on earlier releases on EBCDIC platforms
-        || (! $IS_ASCII && $] lt 5.021_010);
+        || (! $IS_ASCII && "$]" < 5.021_010);
   return &Dumpperl;
 }
 

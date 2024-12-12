@@ -9,7 +9,7 @@ sub ASCII { return ord('A') == 65; }
 
 # This module will give incorrect results for some inputs on EBCDIC platforms
 # before v5.8
-*to_native = ($] lt "5.008")
+*to_native = ("$]" < 5.008)
              ? sub { return shift }
              : sub { return utf8::unicode_to_native(shift) };
 

@@ -32,7 +32,7 @@ our $structname = "${prefix}complist";
 # Starting in v5.20, the tables in lib/unicore are built using the platform's
 # native character set for code points 0-255.  But in v5.35, pack U stopped
 # trying to compensate
-*pack_U = ($] ge 5.020 && $] lt 5.035)
+*pack_U = ("$]" >= 5.020 && "$]" < 5.035)
           ? sub { return pack('U*', map { utf8::unicode_to_native($_) } @_); }
           : sub { return pack('U*', @_); };
 

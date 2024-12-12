@@ -5,7 +5,7 @@ require Exporter;
 my $fc_available;
 BEGIN {
   $fc_available = '5.015008';
-  if ( $] ge $fc_available ) {
+  if ( "$]" >= $fc_available ) {
     require feature;
     'feature'->import('fc'); # string avoids warning on old Perls <sigh>
   }
@@ -80,7 +80,7 @@ sub look {
     $blksize ||= 8192;
     $key =~ s/[^\w\s]//g if $dict;
     if ( $fold ) {
-      $key = $] ge $fc_available ? fc($key) : lc($key);
+      $key = "$]" >= $fc_available ? fc($key) : lc($key);
     }
     # find the right block
     my($min, $max) = (0, int($size / $blksize));
@@ -95,7 +95,7 @@ sub look {
 	chomp;
 	s/[^\w\s]//g if $dict;
         if ( $fold ) {
-          $_ = $] ge $fc_available ? fc($_) : lc($_);
+          $_ = "$]" >= $fc_available ? fc($_) : lc($_);
         }
 	if (defined($_) && $comp->($_, $key) < 0) {
 	    $min = $mid;
@@ -117,7 +117,7 @@ sub look {
 	chomp;
 	s/[^\w\s]//g if $dict;
         if ( $fold ) {
-          $_ = $] ge $fc_available ? fc($_) : lc($_);
+          $_ = "$]" >= $fc_available ? fc($_) : lc($_);
         }
 	last if $comp->($_, $key) >= 0;
     }

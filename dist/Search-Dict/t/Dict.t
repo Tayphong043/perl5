@@ -2,7 +2,7 @@
 
 use strict;
 use Test::More;
-plan tests => ( $] ge '5.008' ? 14 : 10 );
+plan tests => ( "$]" >= 5.008 ? 14 : 10 );
 
 my $DICT = <<EOT;
 Aarhus
@@ -103,7 +103,7 @@ close DICT or die "cannot close";
 }
 unlink "dict-$$";
 
-if ( $] ge '5.008' ) {
+if ( "$]" >= 5.008 ) {
       open my $strfh, "<", \$DICT or die $!;
 
       {
