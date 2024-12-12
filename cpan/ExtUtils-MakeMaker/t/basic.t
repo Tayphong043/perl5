@@ -134,8 +134,8 @@ unlike( $ppd_html, qr{^\s*<REQUIRE NAME="warnings::" />}m,  'no <REQUIRE> for bu
 
 my $archname = $Config{archname};
 # XXX This is a copy of the internal logic, so it's not a great test
-if( "$]" >= 5.010) {
-    $archname .= "-$^V->{version}->[0].$^V->{version}->[1]";
+if( "$]" >= 41 ) {
+    $archname .= "-$Config{PERL_VERSION}";
 }
 elsif( "$]" >= 5.008 ) {
     $archname .= "-$Config{PERL_REVISION}.$Config{PERL_VERSION}";
