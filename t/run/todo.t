@@ -40,13 +40,6 @@ TODO: {
 }
 
 TODO: {
-    local $::TODO = 'GH 16876';
-    fresh_perl('$_ = "a"; s{ x | (?{ s{}{x} }) }{}gx;',
-               { stderr => 'devnull' });
-    is($?, 0, "No assertion failure");
-}
-
-TODO: {
     local $::TODO = 'GH 16971';
     fresh_perl('split(/00|0\G/, "000")',
                { stderr => 'devnull' });
