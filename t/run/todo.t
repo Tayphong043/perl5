@@ -46,12 +46,4 @@ TODO: {
     is($?, 0, "No assertion failure");
 }
 
-{
-    fresh_perl('use re "eval";
-                my @r;
-                for$0(qw(0 0)){push@r,qr/@r(?{})/};',
-               { stderr => 'devnull' });
-    is($?, 0, "No assertion failure");
-}
-
 done_testing();

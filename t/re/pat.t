@@ -28,7 +28,7 @@ skip_all_without_unicode_tables();
 my $has_locales = locales_enabled('LC_CTYPE');
 my $utf8_locale = find_utf8_ctype_locale();
 
-plan tests => 1298;  # Update this when adding/deleting tests.
+plan tests => 1299;  # Update this when adding/deleting tests.
 
 run_tests() unless caller;
 
@@ -2625,6 +2625,14 @@ SKIP:
         unlike "",             $pat,               "code in array 16 not 1";
         unlike "XAB-B-=EC",    $pat,               "code in array 16 not 2";
 
+    }
+
+    {
+        fresh_perl('use re "eval";
+                    my @r;
+                    for$0(qw(0 0)){push@r,qr/@r(?{})/};',
+                   { stderr => 'devnull' });
+        is($?, 0, "No assertion failure (GH 16627)");
     }
 
     {
