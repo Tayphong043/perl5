@@ -5687,7 +5687,7 @@ S_xs_version_bootcheck(pTHX_ SSize_t items, SSize_t ax, const char *xs_p,
 }
 
 /*
-=for apidoc api_version_check
+=for apidoc api_version_assert
 
 Used by the PERL_API_VERSION_CHECK macro to compare the perl the
 object was built with and the perl that C<libperl> was built with.
@@ -5699,11 +5699,11 @@ diagnosable than random crashes and mis-behaviour.
 */
 
 void
-Perl_api_version_check(size_t interp_size, void *v_my_perl,
-                       const char *api_version) {
+Perl_api_version_assert(size_t interp_size, void *v_my_perl,
+                        const char *api_version) {
     dTHX;
 
-    PERL_ARGS_ASSERT_API_VERSION_CHECK;
+    PERL_ARGS_ASSERT_API_VERSION_ASSERT;
 
     if (interp_size != sizeof(PerlInterpreter)) {
         /* detects various types of configuration mismatches */

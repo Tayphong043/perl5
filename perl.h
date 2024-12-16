@@ -9267,11 +9267,11 @@ END_EXTERN_C
 #endif
 
 #ifdef MULTIPLICITY
-#  define PERL_API_VERSION_CHECK \
-  Perl_api_version_check(sizeof(PerlInterpreter), aTHX, PERL_API_VERSION_STRING)
+#  define PERL_API_VERSION_ASSERT \
+  Perl_api_version_assert(sizeof(PerlInterpreter), aTHX, PERL_API_VERSION_STRING)
 #else
-#  define PERL_API_VERSION_CHECK \
-  Perl_api_version_check(sizeof(PerlInterpreter), NULL, PERL_API_VERSION_STRING)
+#  define PERL_API_VERSION_ASSERT \
+  Perl_api_version_assert(sizeof(PerlInterpreter), NULL, PERL_API_VERSION_STRING)
 #endif
 
 /*

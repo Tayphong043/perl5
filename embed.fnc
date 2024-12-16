@@ -686,7 +686,7 @@ Adp	|SV *	|amagic_deref_call					\
 p	|bool	|amagic_is_enabled					\
 				|int method
 
-EMTp	|void	|api_version_check					\
+CTp	|void	|api_version_assert					\
 				|size_t interp_size			\
 				|NULLOK void *v_my_perl 		\
 				|NN const char *api_version
