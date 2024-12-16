@@ -104,7 +104,11 @@ if ($^O eq 'VMS') {
     push(@cmd,"-L$lib", ldopts());
    } else { # Not MSWin32 or OS/390 (z/OS) dynamic.
     my $ldopts = ldopts();
-    if ($^O eq 'openbsd' && !$Config{useshrplib}) {
+    print STDERR "*** TEST OpenBSD specialness ***\n";
+    print STDERR "\$^O '$^O'\n";
+    print STDERR "Config $INC{'Config.pm'}\n";
+    use Data::Dumper;
+    print STDERR Dumper($Config{useshrplib});
     if ($^O eq 'openbsd' && $Config{useshrplib} eq "false") {
         # see github #22125
         # with OpenBSD, the packaged gcc (tries to) link
@@ -112,7 +116,8 @@ if ($^O eq 'VMS') {
         # this perl gets installed, but that's not so good when
         # testing against the uninstalled perl.
         # This also matches how Makefile.SH links the perl executable
-        push @cmd, "$lib/libperl.a";
+        print STDERR "*** OpenBSD specialness ***\n";
+        push @cmd, "$lib/libperl.a", "-Wl,--trace";
         $ldopts =~ s/ -lperl\b//;
     }
     else {
@@ -160,6 +165,8 @@ print "# $cmd\n";
 my @out = `$cmd`;
 $status = $?;
 print "# $_\n" foreach @out;
+
+print STDERR "Debugging\n", @out;
 
 if ($^O eq 'VMS' && !$status) {
   print "# @cmd2\n";
