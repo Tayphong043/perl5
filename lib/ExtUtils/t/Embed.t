@@ -166,7 +166,7 @@ my @out = `$cmd`;
 $status = $?;
 print "# $_\n" foreach @out;
 
-print STDERR "Debugging\n", @out;
+print STDERR "Debugging\n", "Cmd: @cmd\n", @out;
 
 if ($^O eq 'VMS' && !$status) {
   print "# @cmd2\n";
