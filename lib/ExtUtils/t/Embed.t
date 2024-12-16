@@ -105,6 +105,7 @@ if ($^O eq 'VMS') {
    } else { # Not MSWin32 or OS/390 (z/OS) dynamic.
     my $ldopts = ldopts();
     if ($^O eq 'openbsd' && !$Config{useshrplib}) {
+    if ($^O eq 'openbsd' && $Config{useshrplib} eq "false") {
         # see github #22125
         # with OpenBSD, the packaged gcc (tries to) link
         # against the system libperl, this will be fine once
